@@ -22,14 +22,18 @@ def preprocess(path, isDir=False):
         fwrite = io.open(path + ".pre", 'w', encoding='utf8')
         for sentence in fread:
             # Erasing newline character in Window format
-            s = re.sub(r'\\r\\n', '', sentence)
+            s = re.sub(r'\r', '', sentence)
+            s = re.sub(r'\n', '', s)
+            # Checking whether the symbol in the end of line is space or not?
+            if s[-1] == ' ':
+                s = s[0:-1]
             # Erasing more space, more underscore
             s = eraseDoubleChar(s, ' ')
             s = eraseDoubleChar(s, '_')
             # ...
 
             # Writing the pre-processed sentence.
-            fwrite.write(s)
+            fwrite.write(s + "\n")
 
         fread.close()
         fwrite.close()
@@ -53,3 +57,6 @@ if __name__ == '__main__':
 
     # Call preprocess
     preprocess(path, isDir)
+
+    # Finished?
+    print "DONE!!"
