@@ -96,7 +96,7 @@ def prepareData(path, isDir=False, tagset="YN"):
 
 if __name__ == '__main__':
     """
-    Usage: python preparedata.py path/to/corpus
+    Usage: python preparedata.py -t <tagset> path/to/corpus
     """
 
     path = ""
