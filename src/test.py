@@ -4,7 +4,9 @@ import getopt
 import os
 import pickle
 #from nltk import MaxentClassifier
-from nltk import classify
+#from nltk import classify
+from nltk.metrics import scores
+from nltk.metrics import ConfusionMatrix
 
 if __name__ == "__main__":
     """
@@ -55,14 +57,28 @@ if __name__ == "__main__":
 
     # Load model
     print "Loading model..."
-    fmodel = open(model, 'rb')
-    maxent = pickle.load(fmodel)
-    fmodel.close()
+    with open(model, 'rb') as fmodel:
+        cls = pickle.load(fmodel)
 
     # Run test
-    print "Testing..."
-    accuracy = classify.accuracy(maxent, testset)
-    print "Accuracy: %.4f" % accuracy
+    sys.stdout.write("Testing:")
+    pred = []
+    idx = 0
+    for i in testset[:, 0]:
+        idx += 1
+        if idx % 1000 == 0:
+            sys.stdout.write(".")
+            sys.stdout.flush()
+        pred.append(str(cls.classify(i)))
+
+    # Result
+    #  * Convert Ref Label to ASCII
+    ref = [str(label) for label in testset[:, 1]]
+    accuracy = scores.accuracy(ref, pred)
+    print "\nAccuracy: %.4f" % accuracy
+    cm = ConfusionMatrix(ref, pred)
+    print "Confusion Matrix: "
+    print (cm.pretty_format(sort_by_count=True, show_percents=True, truncate=9))
 
     # Finished?
     print "DONE!!"

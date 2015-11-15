@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
 
     # Save model
-    print "Save model into file %s" % model
+    print "Saving model into file %s" % model
     with io.open(model, 'wb') as fmodel:
         pickle.dump(maxent, fmodel)
 
