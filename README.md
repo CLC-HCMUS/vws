@@ -7,6 +7,8 @@
 2. Numpy
 3. Scipy
 4. NLTK
+5. Keras
+6. Theano
 
 ## How to run
 
