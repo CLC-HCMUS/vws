@@ -125,7 +125,7 @@ def featureextract(path):
     for wordtag in fread:
         wordtag = re.sub(r'\r', '', wordtag)
         wordtag = re.sub(r'\n', '', wordtag)
-        if wordtag == '':       # End of a sentence
+        if wordtag == "":       # End of a sentence
             idx += 1
             if idx % 1000 == 0:
                 sys.stdout.write(".")
