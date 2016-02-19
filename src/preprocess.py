@@ -104,8 +104,10 @@ def preprocess(path, format='txt', isDir=False):
             fread = io.open(path, 'r', encoding='utf8')
             fwrite = io.open(path + ".pre", 'w', encoding='utf8')
             for sentence in fread:
+                # Erasing the tab character
+                s = re.sub(r'\t', '', sentence)
                 # Erasing newline character in Window format
-                s = re.sub(r'\r', '', sentence)
+                s = re.sub(r'\r', '', s)
                 s = re.sub(r'\n', '', s)
                 # Checking whether the symbol in the end of line is space or not?
                 if s[-1] == ' ':
