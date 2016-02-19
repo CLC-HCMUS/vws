@@ -71,24 +71,28 @@ def main():
     tagDict = getDictionary(path2YTrain, False)
 
     # Convert the format of input is from text to integer
-    XTrain = getNumerialValue(path2XTrain, wordDict)
+    XTrain = getNumerialValues(path2XTrain, wordDict)
     # ...
     XTrain = sequence.pad_sequences(XTrain, maxLen)
 
     # Convert the label into numerical format
-    YTrain = getNumerialValue(path2YTrain, tagDict)
+    YTrain = getNumerialValues(path2YTrain, tagDict)
     # ...
     YTrain = sequence.pad_sequences(YTrain, maxLen)
+    if verbose:
+        print "Loaded training data."
 
     # Convert the format of input is from text to integer
-    XVal = getNumerialValue(path2XVal, wordDict)
+    XVal = getNumerialValues(path2XVal, wordDict)
     # ...
     XVal = sequence.pad_sequences(XVal, maxLen)
 
     # Convert the label into numerical format
-    YVal = getNumerialValue(path2YVal, tagDict)
+    YVal = getNumerialValues(path2YVal, tagDict)
     # ...
     YVal = sequence.pad_sequences(YVal, maxLen)
+    if verbose:
+        print "Loaded validation data."
 
     #Build the network
     vocabSize = len(wordDict)
