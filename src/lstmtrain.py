@@ -111,7 +111,7 @@ def main():
         print "Built the network."
     # Write network description to file
     network2JSON = model.to_json()
-    with open(os.path.json(path2OutputDir, modelName +'.json'), 'w') as fwrite:
+    with open(os.path.join(path2OutputDir, modelName +'.json'), 'w') as fwrite:
         fwrite.write(network2JSON)
     #Compile the network
     model.compile(loss='categorial_crossentropy', optimizer='rmsprop')
