@@ -27,7 +27,7 @@ def convertTagBIO(sentence):
     for word in words:
         chars = word.split('_') # Character is tieng in Vietnamese language
         if chars[-1] == "":
-            chars = [chr for chr in chrs if chr != ""]
+            chars = [chr for chr in chars if chr != ""]
 
         if len(chars) == 1:
             chars[0] += "\tO"
