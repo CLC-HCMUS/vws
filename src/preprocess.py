@@ -109,6 +109,8 @@ def preprocess(path, format='txt', isDir=False):
                 # Erasing newline character in Window format
                 s = re.sub(r'\r', '', s)
                 s = re.sub(r'\n', '', s)
+                # Erasing the pattern '[a-zA-Z]*_ '
+                s = re.sub(r'_ ', ' ', s)
                 # Checking whether the symbol in the end of line is space or not?
                 if s[-1] == ' ':
                     s = s[0:-1]
