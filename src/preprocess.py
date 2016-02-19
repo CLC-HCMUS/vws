@@ -154,8 +154,8 @@ if __name__ == '__main__':
     path = ""
     format = 'txt'
     if len(sys.argv) > 2:
-        path = sys.argv[1]
-        format = sys.argv[2]
+        path = sys.argv[2]
+        format = sys.argv[1]
     else:
         print "Usage: preprocess.py path/to/corpus"
         sys.exit(0)
