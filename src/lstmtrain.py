@@ -65,7 +65,7 @@ def main():
     modelName = args.model
 
     nbofEpochs = 100
-    maxLen = 80
+    maxLen = 50
     batchSize = 100
     patience = 10
 
@@ -114,7 +114,7 @@ def main():
     with open(os.path.join(path2OutputDir, modelName +'.json'), 'w') as fwrite:
         fwrite.write(network2JSON)
     #Compile the network
-    model.compile(loss='categorial_crossentropy', optimizer='rmsprop')
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     if verbose:
         print "Compiled the network."
     # Training progress
