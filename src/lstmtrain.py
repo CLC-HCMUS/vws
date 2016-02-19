@@ -5,12 +5,14 @@ import argparse
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, TimeDistributedDense
 from keras.layers.embeddings import Embedding
-from keras.layers.recurrent import GRU
+from keras.layers.recurrent import LSTM
 
 from keras.preprocessing import sequence
 from keras.utils import generic_utils
 
 from utils import grouper
+
+verbose = os.environ.get('VERBOSE', 'no') == 'yes'
 
 def getDictionary(path2File, use_unk=True):
     wordDict = {}
@@ -19,7 +21,7 @@ def getDictionary(path2File, use_unk=True):
         for sent in fread:
             lstWords = sent.split()
             for word in lstWords:
-                if !wordDict.has_key(word):
+                if not wordDict.has_key(word):
                     wordDict[word] = idx
                     idx += 1
     if use_unk:
@@ -34,10 +36,10 @@ def getNumerialValues(path2File, dictionary):
             numLine = []
             lstItems = line.split()
             for item in lstItems:
-                if dictionary.hasKey(item):
+                if dictionary.has_key(item):
                     numLine.append(dictionary[item])
                 elif dictionary.has_key('UNK'):
-                    numSent.append(dictionary['UNK'])
+                    numLine.append(dictionary['UNK'])
                 else:
                     raise ValueError("Cannot find the numerical value of item: " + item)
             result.append(numLine)
@@ -71,43 +73,48 @@ def main():
     tagDict = getDictionary(path2YTrain, False)
 
     # Convert the format of input is from text to integer
-    XTrain = getNumerialValue(path2XTrain, wordDict)
+    XTrain = getNumerialValues(path2XTrain, wordDict)
     # ...
     XTrain = sequence.pad_sequences(XTrain, maxLen)
 
     # Convert the label into numerical format
-    YTrain = getNumerialValue(path2YTrain, tagDict)
+    YTrain = getNumerialValues(path2YTrain, tagDict)
     # ...
     YTrain = sequence.pad_sequences(YTrain, maxLen)
+    if verbose:
+        print "Loaded training data."
 
     # Convert the format of input is from text to integer
-    XVal = getNumerialValue(path2XVal, wordDict)
+    XVal = getNumerialValues(path2XVal, wordDict)
     # ...
     XVal = sequence.pad_sequences(XVal, maxLen)
 
     # Convert the label into numerical format
-    YVal = getNumerialValue(path2YVal, tagDict)
+    YVal = getNumerialValues(path2YVal, tagDict)
     # ...
     YVal = sequence.pad_sequences(YVal, maxLen)
+    if verbose:
+        print "Loaded validation data."
 
     #Build the network
     vocabSize = len(wordDict)
     nbofTag = len(tagDict)
     embeddingSize = 100
+    nbofLSTMHiddenUnits = 50
 
     model = Sequential()
     model.add(Embedding(vocabSize, embeddingSize, init='lecun_uniform'))
-    model.add(GRU(embeddingSize, 50, return_sequences=True))
+    model.add(LSTM(output_dim=nbofLSTMHiddenUnits, return_sequences=True))
     model.add(TimeDistributedDense(nbofTag))
     model.add(Activation('softmax'))
     if verbose:
         print "Built the network."
     # Write network description to file
     network2JSON = model.to_json()
-    with open(os.path.json(path2OutputDir, modelName +'.json'), 'w') as fwrite:
+    with open(os.path.join(path2OutputDir, modelName +'.json'), 'w') as fwrite:
         fwrite.write(network2JSON)
     #Compile the network
-    model.compile(loss='categorial_crossentropy', optimizer='rmsprop')
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     if verbose:
         print "Compiled the network."
     # Training progress
