@@ -132,7 +132,10 @@ def featureextract(path):
                 sys.stdout.flush()
             for i in range(len(sentence)):
                 # Get feature for single character
-                feat.update(orthographicFeature(sentence[i][0]))
+                try:    
+                    feat.update(orthographicFeature(sentence[i][0]))
+                except:
+                    print("\""+sentence[i][0]+"\"")
                 # Get feature from characters around
                 feat.update(contextFeature(sentence[i][0], sentence, i))
                 # Make feat + tag
