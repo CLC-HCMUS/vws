@@ -39,7 +39,7 @@ def getNumerialValues(path2File, dictionary):
                 if dictionary.has_key(item):
                     numLine.append(dictionary[item])
                 elif dictionary.has_key('UNK'):
-                    numSent.append(dictionary['UNK'])
+                    numLine.append(dictionary['UNK'])
                 else:
                     raise ValueError("Cannot find the numerical value of item: " + item)
             result.append(numLine)
