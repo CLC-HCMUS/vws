@@ -12,6 +12,8 @@ from keras.utils import generic_utils
 
 from utils import grouper
 
+verbose = os.environ.get('VERBOSE', 'no') == 'yes'
+
 def getDictionary(path2File, use_unk=True):
     wordDict = {}
     idx = 0
@@ -34,7 +36,7 @@ def getNumerialValues(path2File, dictionary):
             numLine = []
             lstItems = line.split()
             for item in lstItems:
-                if dictionary.hasKey(item):
+                if dictionary.has_key(item):
                     numLine.append(dictionary[item])
                 elif dictionary.has_key('UNK'):
                     numSent.append(dictionary['UNK'])
