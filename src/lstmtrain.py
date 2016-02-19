@@ -5,7 +5,7 @@ import argparse
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, TimeDistributedDense
 from keras.layers.embeddings import Embedding
-from keras.layers.recurrent import GRU
+from keras.layers.recurrent import LSTM
 
 from keras.preprocessing import sequence
 from keras.utils import generic_utils
@@ -65,7 +65,7 @@ def main():
     modelName = args.model
 
     nbofEpochs = 100
-    maxLen = 50
+    maxLen = 80
     batchSize = 100
     patience = 10
 
@@ -100,10 +100,11 @@ def main():
     vocabSize = len(wordDict)
     nbofTag = len(tagDict)
     embeddingSize = 100
+    nbofLSTMHiddenUnits = 50
 
     model = Sequential()
     model.add(Embedding(vocabSize, embeddingSize, init='lecun_uniform'))
-    model.add(GRU(embeddingSize, 50, return_sequences=True))
+    model.add(LSTM(output_dim=nbofLSTMHiddenUnits, return_sequences=True))
     model.add(TimeDistributedDense(nbofTag))
     model.add(Activation('softmax'))
     if verbose:
