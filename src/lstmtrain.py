@@ -19,7 +19,7 @@ def getDictionary(path2File, use_unk=True):
         for sent in fread:
             lstWords = sent.split()
             for word in lstWords:
-                if !wordDict.has_key(word):
+                if not wordDict.has_key(word):
                     wordDict[word] = idx
                     idx += 1
     if use_unk:
