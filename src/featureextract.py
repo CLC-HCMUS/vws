@@ -102,12 +102,13 @@ def contextFeature(word, sentence, curIndex):
         pattern += mSentence[curIndex + 1 + i][0] + " "
     pattern = pattern[0:-1]
     result.update({'oneprenexChars': pattern})
-    # Two previous tags
-    pattern = ""
-    for i in [-2, -1]:
-        pattern += mSentence[curIndex + 2 +i][1] + " "
-    pattern = pattern[0:-1]
-    result.update({'twopreTags':pattern})
+    #TODO: Confirm later?
+#    # Two previous tags
+#    pattern = ""
+#    for i in [-2, -1]:
+#        pattern += mSentence[curIndex + 2 +i][1] + " "
+#    pattern = pattern[0:-1]
+#    result.update({'twopreTags':pattern})
 
     return result
 
