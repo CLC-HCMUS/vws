@@ -4,6 +4,7 @@ import os
 import sys
 import codecs
 import argparse
+import time
 
 def prepare_data(sentence = "", tagset = "YN"):
     sentence_result = ""
@@ -68,21 +69,34 @@ if __name__ == '__main__':
     dir_ouput = args.fo
     tagset = args.tagset
 
+    start = time.clock()
+
+    sys.stdout.write("Preparing data : ")
+
     if os.path.isfile(dir_input) == False:
-        print("Input file does not exist !")
+        sys.stdout.write("Input file does not exist ! \n")
         sys.exit(2)
 
     fi = codecs.open(dir_input, encoding='utf-8',mode='r')
     lines = fi.readlines()
-    fo = codecs.open(dir_ouput, encoding='utf-8',mode='w')
+    fo_word = codecs.open(dir_ouput+".words", encoding='utf-8',mode='w')
+    fo_label = codecs.open(dir_ouput+".labels", encoding='utf-8',mode='w')
 
     count = 0
     for line in lines:
         words, label = prepare_data(sentence=line,tagset=tagset)
-        fo.write(words + "\t" +label + "\n")
+        fo_word.write(words+"\n")
+        fo_label.write(label+"\n")
+        if count % 100000 == 0:
+            sys.stdout.write(".")
+            sys.stdout.flush()
         count+=1
 
-    fo.close()
+    sys.stdout.write("\n")
+    fo_word.close()
+    fo_label.close()
     fi.close()
 
+    end = time.clock()
+    sys.stdout.write("Time for preparing data: " + str(end - start) + "second \n")
 
