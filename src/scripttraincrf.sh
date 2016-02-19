@@ -10,10 +10,10 @@ TRAIN_FILE=$2
 
 echo " --- Begin CRF Training ---"
 
-python preprocess.py $TRAIN_FILE
-python preparedata.py -t BIO $TRAIN_FILE".pre"
-python featureextract.py $TRAIN_FILE".pre.BIO.pdata"
-python crftrain.py -m $MODEL $TRAIN_FILE".pre.BIO.pdata.feat.npy"
+python preprocess.py txt $TRAIN_FILE
+python preparedata.py -t YN $TRAIN_FILE".pre"
+python featureextract.py $TRAIN_FILE".pre.YN.pdata"
+python crftrain.py -m $MODEL $TRAIN_FILE".pre.YN.pdata.feat.npy"
 
 echo " --- End CRF Training ---"
 
